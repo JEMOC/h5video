@@ -4,7 +4,7 @@ require("./index.css");
 
 const playerContent = document.querySelector(".player-content");
 
-window.addEventListener("resize", function() {
+window.addEventListener("resize", function () {
   if (hasClass(player, "player-widemode")) {
     wideMode();
   } else {
@@ -16,7 +16,7 @@ window.addEventListener("resize", function() {
   }
 });
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   initSize();
 });
 
@@ -38,7 +38,7 @@ function Time(sec) {
 var video = document.querySelector("video");
 video.addEventListener(
   "contextmenu",
-  function(e) {
+  function (e) {
     console.log("right click");
     e.preventDefault();
   },
@@ -63,40 +63,40 @@ function play() {
   }
 }
 
-playerBtn.addEventListener("click", function() {
+playerBtn.addEventListener("click", function () {
   play(playerStatus);
 });
 
-video.addEventListener("pause", function() {
+video.addEventListener("pause", function () {
   player.classList.add("player-pause");
 });
 
-video.addEventListener("play", function() {
+video.addEventListener("play", function () {
   player.classList.remove("player-pause");
 
   var videoWrap = document.querySelector(".videoWrap");
   var timeout;
-  videoWrap.addEventListener("mousemove", function() {
+  videoWrap.addEventListener("mousemove", function () {
     clearTimeout(timeout);
     showControl();
     timeout = setTimeout(hiddenControl, 3000);
   });
 });
 
-video.addEventListener("click", function() {
+video.addEventListener("click", function () {
   play(playerStatus);
   // if (canplay) {
   //   hiddenControl();
   // }
 });
 
-video.addEventListener("ended", function() {
+video.addEventListener("ended", function () {
   playerStatus = true;
 });
 
 //////
 var durationTime = document.querySelector(".duration-time");
-video.addEventListener("canplay", function() {
+video.addEventListener("canplay", function () {
   canplay = true;
   console.log("canplay");
   if (hasClass(player, "player-pause")) {
@@ -106,7 +106,7 @@ video.addEventListener("canplay", function() {
   }
 });
 
-video.addEventListener("durationchange", function() {
+video.addEventListener("durationchange", function () {
   durationTime.innerHTML = Time(video.duration);
   video.currentTime = 0;
 });
@@ -163,20 +163,20 @@ function foo(offset) {
 
 videoProgree.addEventListener(
   "mousedown",
-  function(e) {
+  function (e) {
     moveProgree.call(this, e);
     document.addEventListener("mousemove", moveProgree);
   },
   false
 );
 
-document.addEventListener("mouseup", function() {
+document.addEventListener("mouseup", function () {
   document.removeEventListener("mousemove", moveProgree);
 });
 
 videoProgree.addEventListener(
   "mousemove",
-  function(e) {
+  function (e) {
     var offset = getOffset(e, this, true);
     detailTime.style.setProperty("left", `${offset * 100}%`);
     time.innerHTML = `${Time(offset * video.duration)}`;
@@ -184,7 +184,7 @@ videoProgree.addEventListener(
   false
 );
 
-video.addEventListener("timeupdate", function() {
+video.addEventListener("timeupdate", function () {
   var offset = video.currentTime / video.duration;
   if (canplay) {
     foo(offset);
@@ -202,7 +202,7 @@ var volumeBtn = document.querySelector(".player-volume-icon");
 
 var v = 0.1;
 
-volumeBtn.addEventListener("click", function() {
+volumeBtn.addEventListener("click", function () {
   if (video.volume) {
     v = video.volume;
     video.volume = 0;
@@ -223,20 +223,20 @@ function moveVolume(e) {
   video.volume = offset.toFixed(2);
 }
 
-volumeProgree.addEventListener("mousedown", function(e) {
+volumeProgree.addEventListener("mousedown", function (e) {
   volumeWrap.classList.add("volumebar-hover");
   moveVolume(e);
   document.addEventListener("mousemove", moveVolume);
 });
 
-document.addEventListener("mouseup", function() {
+document.addEventListener("mouseup", function () {
   document.removeEventListener("mousemove", moveVolume);
   volumeWrap.classList.remove("volumebar-hover");
 });
 
 video.addEventListener(
   "volumechange",
-  function() {
+  function () {
     var volume = video.volume;
     volumeBar.style.setProperty("--volume", volume);
     volumeNum.innerHTML = parseInt(volume * 100);
@@ -266,7 +266,7 @@ var widemode = document.querySelector(".widemode-wrap");
 var bofangqi = document.querySelector(".player-main");
 var fullpage = document.querySelector(".fullpage-wrap");
 
-widemode.addEventListener("click", function() {
+widemode.addEventListener("click", function () {
   if (!hasClass(player, "player-widemode")) {
     wideMode();
   } else {
@@ -274,7 +274,7 @@ widemode.addEventListener("click", function() {
   }
 });
 
-fullpage.addEventListener("click", function() {
+fullpage.addEventListener("click", function () {
   if (!hasClass(player, "player-fullpage")) {
     fullWebScreen();
   } else {
@@ -344,19 +344,19 @@ function FullScreen(el) {
   if (!isFullscreen) {
     //进入全屏,多重短路表达式
     (el.requestFullscreen && el.requestFullscreen()) ||
-      (el.mozRequestFullScreen && el.mozRequestFullScreen()) ||
-      (el.webkitRequestFullscreen && el.webkitRequestFullscreen()) ||
-      (el.msRequestFullscreen && el.msRequestFullscreen());
+    (el.mozRequestFullScreen && el.mozRequestFullScreen()) ||
+    (el.webkitRequestFullscreen && el.webkitRequestFullscreen()) ||
+    (el.msRequestFullscreen && el.msRequestFullscreen());
     player.classList.add("player-fullscreen");
   } else {
     //退出全屏,三目运算符
-    document.exitFullscreen
-      ? document.exitFullscreen()
-      : document.mozCancelFullScreen
-      ? document.mozCancelFullScreen()
-      : document.webkitExitFullscreen
-      ? document.webkitExitFullscreen()
-      : "";
+    document.exitFullscreen ?
+      document.exitFullscreen() :
+      document.mozCancelFullScreen ?
+      document.mozCancelFullScreen() :
+      document.webkitExitFullscreen ?
+      document.webkitExitFullscreen() :
+      "";
     player.classList.remove("player-fullscreen");
     initPlayer();
   }
@@ -375,7 +375,7 @@ function checkFull() {
 }
 
 var fullscreenBtn = document.querySelector(".fullscreen-wrap");
-fullscreenBtn.addEventListener("click", function() {
+fullscreenBtn.addEventListener("click", function () {
   FullScreen(player);
 });
 
@@ -394,19 +394,18 @@ function showControl() {
 // controll-show
 
 var videoCtr = document.querySelector(".videoCtrWrap");
-videoCtr.addEventListener("mouseover", function() {
+videoCtr.addEventListener("mouseover", function () {
   this.classList.add("mouse-hover");
 });
 
-videoCtr.addEventListener("mouseout", function() {
+videoCtr.addEventListener("mouseout", function () {
   this.classList.remove("mouse-hover");
 });
 
 // playList
 var playIndex = 1;
 
-var playList = [
-  {
+var playList = [{
     title: "世界奇妙物语 17深夜特别篇 1",
     src: "/世界奇妙物语/1.MP4"
   },
@@ -459,16 +458,16 @@ function loadList() {
 
     var listdoc = document.createDocumentFragment();
 
-    playList.forEach(function(item, index) {
+    playList.forEach(function (item, index) {
       var li = document.createElement("li");
-      if(index == 0) {
+      if (index == 0) {
         li.classList.add('on');
       }
       li.innerHTML = `<a title="${item.title}"><span>P${index + 1}</span>${
         item.title
       }</a>`;
 
-      li.addEventListener("click", function() {
+      li.addEventListener("click", function () {
         video.src = item.src;
         this.classList.add("on");
       });
@@ -483,26 +482,26 @@ function loadList() {
 
     var li = document.querySelectorAll("#curList li");
 
-    select.addEventListener("click", function() {
+    select.addEventListener("click", function () {
       if (hasClass(curList, "list-mode")) {
         curList.classList.remove("list-mode");
         curList.classList.add("block-mode");
-        li.forEach(function(item, index) {
+        li.forEach(function (item, index) {
           item.querySelector("a").innerHTML = index + 1;
         });
       } else {
         curList.classList.remove("block-mode");
         curList.classList.add("list-mode");
-        li.forEach(function(item) {
+        li.forEach(function (item) {
           var a = item.querySelector("a");
           a.innerHTML = a.title;
         });
       }
     });
 
-    li.forEach(function(item, index){
-      item.addEventListener('click', function() {
-        li.forEach(function(item) {
+    li.forEach(function (item, index) {
+      item.addEventListener('click', function () {
+        li.forEach(function (item) {
           item.classList.remove('on');
         })
         item.classList.add('on');
@@ -518,7 +517,7 @@ loadList();
 var mirror = document.querySelector("#mirror");
 var lightoff = document.querySelector("#lightoff");
 
-mirror.addEventListener("change", function() {
+mirror.addEventListener("change", function () {
   if (mirror.checked) {
     video.style.setProperty("transform", "rotateY(180deg)");
   } else {
@@ -526,7 +525,7 @@ mirror.addEventListener("change", function() {
   }
 });
 
-lightoff.addEventListener("change", function() {
+lightoff.addEventListener("change", function () {
   var black = document.querySelector(".black");
   if (lightoff.checked) {
     black.style.setProperty("display", "block");
@@ -539,10 +538,10 @@ lightoff.addEventListener("change", function() {
 
 
 var vdesc = document.querySelector('#v-desc');
-vdesc.addEventListener('click', function() {
+vdesc.addEventListener('click', function () {
   var info = document.querySelector('.video-desc .info');
   var span = this.querySelector('span');
-  if(hasClass(this, 'on')){
+  if (hasClass(this, 'on')) {
     span.innerHTML = '展开更多';
     this.classList.remove('on');
     info.classList.remove('open');
@@ -550,5 +549,20 @@ vdesc.addEventListener('click', function() {
     span.innerHTML = '收起';
     this.classList.add('on');
     info.classList.add('open');
+  }
+})
+
+
+var emojiBtn = document.querySelector('.comment-emoji .emoji-btn .btn-text');
+var emojiBox = document.querySelector('.emoji-container .emoji-box');
+
+
+
+document.addEventListener('click', function (e) {
+  emojiBox.style.setProperty('display', '');
+  var event = window.event || e;
+
+  if (hasClass(event.target, 'btn-text')) {
+    emojiBox.style.setProperty('display', 'block');
   }
 })

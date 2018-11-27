@@ -28,7 +28,8 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
-    "uninstall": "0.0.0"
+    "uninstall": "0.0.0",
+    "yarn": "^1.12.3"
   },
   "browserslist": [
     "Firefox > 20",
