@@ -86,7 +86,7 @@ video.addEventListener("play", function () {
 video.addEventListener("click", function () {
   play(playerStatus);
   // if (canplay) {
-  //   hiddenControl();
+  // hiddenControl();
   // }
 });
 
@@ -138,19 +138,21 @@ function getOffset(e, elem, dir) {
   if (offset < 0) {
     offset = 0;
   }
-
   return offset;
 }
-
 var videoProgree = document.querySelector(".video-progree");
-var progreeBar = document.querySelector(".progreeBar");
+var
+  progreeBar = document.querySelector(".progreeBar");
 var detailTime = document.querySelector(".progree-detail-wrap");
-var progreePoint = document.querySelector(".progreePoint");
+var
+  progreePoint = document.querySelector(".progreePoint");
 var time = document.querySelector(".detail-time");
-var currentTime = document.querySelector(".progree-time");
+var
+  currentTime = document.querySelector(".progree-time");
 
 function moveProgree(e) {
-  var offset = getOffset.call(this, e, videoProgree, true);
+  var offset = getOffset.call(this, e,
+    videoProgree, true);
   foo(offset);
   video.currentTime = offset * video.duration;
 }
@@ -160,30 +162,19 @@ function foo(offset) {
   var width = videoProgree.offsetWidth - 12;
   progreePoint.style.setProperty("left", `${offset * width}px`);
 }
-
-videoProgree.addEventListener(
-  "mousedown",
+videoProgree.addEventListener("mousedown",
   function (e) {
     moveProgree.call(this, e);
     document.addEventListener("mousemove", moveProgree);
-  },
-  false
-);
-
+  }, false);
 document.addEventListener("mouseup", function () {
   document.removeEventListener("mousemove", moveProgree);
 });
-
-videoProgree.addEventListener(
-  "mousemove",
-  function (e) {
-    var offset = getOffset(e, this, true);
-    detailTime.style.setProperty("left", `${offset * 100}%`);
-    time.innerHTML = `${Time(offset * video.duration)}`;
-  },
-  false
-);
-
+videoProgree.addEventListener("mousemove", function (e) {
+  var offset = getOffset(e, this, true);
+  detailTime.style.setProperty("left", `${offset * 100}%`);
+  time.innerHTML = `${Time(offset * video.duration)}`;
+}, false);
 video.addEventListener("timeupdate", function () {
   var offset = video.currentTime / video.duration;
   if (canplay) {
@@ -192,16 +183,15 @@ video.addEventListener("timeupdate", function () {
   }
 });
 
-// volume
+// volume 
+
 var volumeWrap = document.querySelector(".player-volume-wrap");
 var volumeProgree = document.querySelector(".volumebar");
 var volumeBar = document.querySelector(".volumebar-progree");
 var volumeNum = document.querySelector(".volume-num");
 var volumeDot = document.querySelector(".volumebar-dot");
 var volumeBtn = document.querySelector(".player-volume-icon");
-
 var v = 0.1;
-
 volumeBtn.addEventListener("click", function () {
   if (video.volume) {
     v = video.volume;
@@ -222,36 +212,33 @@ function moveVolume(e) {
   }
   video.volume = offset.toFixed(2);
 }
-
-volumeProgree.addEventListener("mousedown", function (e) {
-  volumeWrap.classList.add("volumebar-hover");
-  moveVolume(e);
-  document.addEventListener("mousemove", moveVolume);
-});
-
+volumeProgree.addEventListener("mousedown",
+  function (e) {
+    volumeWrap.classList.add("volumebar-hover");
+    moveVolume(e);
+    document.addEventListener("mousemove",
+      moveVolume);
+  });
 document.addEventListener("mouseup", function () {
-  document.removeEventListener("mousemove", moveVolume);
+  document.removeEventListener("mousemove",
+    moveVolume);
   volumeWrap.classList.remove("volumebar-hover");
 });
-
-video.addEventListener(
-  "volumechange",
+video.addEventListener("volumechange",
   function () {
     var volume = video.volume;
     volumeBar.style.setProperty("--volume", volume);
-    volumeNum.innerHTML = parseInt(volume * 100);
+    volumeNum.innerHTML = parseInt(volume *
+      100);
     volumeDot.style.setProperty("bottom", `${volume * 50}px`);
-
     if (!volume) {
       player.classList.add("player-muted");
     } else {
       player.classList.remove("player-muted");
     }
-  },
-  false
-);
+  }, false);
 
-///s
+///s 
 
 function hasClass(elem, cl) {
   var classList = Array.from(elem.classList);
@@ -437,22 +424,23 @@ function loadList() {
 
     multiPage.innerHTML = `
     <div class="head-content">
-    <h3>视频选集</h3>
-    <div class="range-box">
-      <div class="select-icon">
-        <button id="select">&nbsp0&nbsp</button>
-      </div>
-      <div class="current-page">
-        <span class="index-page">${playIndex}</span><span>/</span><span class="total-page">${
-      playList.length
-    }</span>
+      <h3>视频选集</h3>
+      <div class="range-box">
+        <div class="select-icon">
+          <button id="select">&nbsp0&nbsp</button>
+        </div>
+        <div class="current-page">
+          <span class="index-page">${playIndex}</span><span>/</span><span class="total-page">${
+            playList.length
+            }</span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="cur-list"></ul>
-              <ul id="curList" class="list-mode">
-              </ul>
-              </div>`;
+    <div class="cur-list">
+      </ul>
+      <ul id="curList" class="list-mode">
+      </ul>
+    </div>`;
 
     r.appendChild(multiPage);
 
@@ -461,10 +449,10 @@ function loadList() {
     playList.forEach(function (item, index) {
       var li = document.createElement("li");
       if (index == 0) {
-        li.classList.add('on');
+        li.classList.add("on");
       }
       li.innerHTML = `<a title="${item.title}"><span>P${index + 1}</span>${
-        item.title
+      item.title
       }</a>`;
 
       li.addEventListener("click", function () {
@@ -500,14 +488,14 @@ function loadList() {
     });
 
     li.forEach(function (item, index) {
-      item.addEventListener('click', function () {
+      item.addEventListener("click", function () {
         li.forEach(function (item) {
-          item.classList.remove('on');
-        })
-        item.classList.add('on');
-        document.querySelector('.index-page').innerHTML = index + 1;
-      })
-    })
+          item.classList.remove("on");
+        });
+        item.classList.add("on");
+        document.querySelector(".index-page").innerHTML = index + 1;
+      });
+    });
   }
 }
 
@@ -535,34 +523,225 @@ lightoff.addEventListener("change", function () {
   }
 });
 
-
-
-var vdesc = document.querySelector('#v-desc');
-vdesc.addEventListener('click', function () {
-  var info = document.querySelector('.video-desc .info');
-  var span = this.querySelector('span');
-  if (hasClass(this, 'on')) {
-    span.innerHTML = '展开更多';
-    this.classList.remove('on');
-    info.classList.remove('open');
+var vdesc = document.querySelector("#v-desc");
+vdesc.addEventListener("click", function () {
+  var info = document.querySelector(".video-desc .info");
+  var span = this.querySelector("span");
+  if (hasClass(this, "on")) {
+    span.innerHTML = "展开更多";
+    this.classList.remove("on");
+    info.classList.remove("open");
   } else {
-    span.innerHTML = '收起';
-    this.classList.add('on');
-    info.classList.add('open');
+    span.innerHTML = "收起";
+    this.classList.add("on");
+    info.classList.add("open");
   }
-})
+});
 
+var emojiBtn = document.querySelector(".comment-emoji .emoji-btn .btn-text");
+var emojiBox = document.querySelector(".emoji-container .emoji-box");
+var textarea = document.querySelector(".textarea-container textarea");
+var tabList = document.querySelector(".emoji-tab-wrap");
 
-var emojiBtn = document.querySelector('.comment-emoji .emoji-btn .btn-text');
-var emojiBox = document.querySelector('.emoji-container .emoji-box');
+document.addEventListener("click", function () {
+  emojiBox.style.setProperty("display", "");
+});
 
+emojiBtn.addEventListener("click", function (e) {
+  e.stopPropagation();
+  emojiBox.style.setProperty("display", "block");
+  textarea.focus();
+});
 
-
-document.addEventListener('click', function (e) {
-  emojiBox.style.setProperty('display', '');
+emojiBox.addEventListener("click", function (e) {
   var event = window.event || e;
+  event.stopImmediatePropagation();
+});
 
-  if (hasClass(event.target, 'btn-text')) {
-    emojiBox.style.setProperty('display', 'block');
+// bak
+
+var emojiData = require("./emoji.json");
+
+var prev = document.querySelector(".emoji-tab-slider .prev");
+var next = document.querySelector(".emoji-tab-slider .next");
+
+function loadEmoji() {
+  tabWidth = emojiData.length * 46;
+
+  tabList.style.setProperty("width", `${tabWidth}px`);
+  tabList.style.setProperty("left", `0`);
+
+  if (tabWidth > 322) {
+    next.classList.add("on");
   }
-})
+
+  emojiData.forEach(function (emoji) {
+    var title = emoji.title;
+    var type = emoji.type;
+    var list = emoji.emojiList;
+    var icon = emoji.icon;
+
+    var a = document.createElement("a");
+    a.className = "tab-link";
+    a.innerHTML = `<img src="emoji/base/${icon}"></img>`;
+
+    a.addEventListener("click", function () {
+      tabList.querySelectorAll("a.tab-link").forEach(function (element) {
+        element.classList.remove("on");
+      });
+      this.classList.add("on");
+
+      var emojiTitle = document.querySelector(".emoji-title");
+      var emojiWrap = document.querySelector(".emoji-wrap");
+
+      emojiTitle.innerHTML = title;
+
+      emojiWrap.innerHTML = "";
+
+      list.forEach(function (item) {
+        var el = document.createElement("a");
+        el.classList.add("emoji-list");
+        el.setAttribute("data-emoji-text", item.title);
+
+        if (type == "icon") {
+          el.classList.add("emoji-icon");
+          var img = document.createElement("img");
+          img.src = `emoji/${title}/${item.src}`;
+          img.title = item.title;
+          el.append(img);
+        } else {
+          el.classList.add("emoji-text");
+          el.innerHTML = item.text;
+        }
+
+        el.addEventListener("click", function () {
+          textarea.value = textarea.value + item.title;
+          textarea.focus();
+          emojiBox.style.setProperty("display", "");
+        });
+
+        emojiWrap.appendChild(el);
+      });
+    });
+
+    tabList.appendChild(a);
+  });
+  tabList.querySelector("a").click();
+}
+
+function rollBtn() {
+  var tabList = document.querySelector(".emoji-tab-wrap");
+
+  var width = parseInt(tabList.style.width);
+
+  var cw = 322;
+  var page = Math.ceil(width / cw);
+
+  var index = 1;
+
+  prev.addEventListener("click", function () {
+    index--;
+    translate();
+  });
+
+  next.addEventListener("click", function () {
+    index++;
+    translate();
+  });
+
+  function translate() {
+    if (index <= 1) {
+      index = 1;
+      prev.classList.remove("on");
+    }
+    if (index >= page) {
+      index = page;
+      next.classList.remove("on");
+    }
+    if (index < page) {
+      next.classList.add("on");
+    }
+    if (index > 1) {
+      prev.classList.add("on");
+    }
+    tabList.style.setProperty("left", `${(index - 1) * -cw}px`);
+  }
+}
+
+function sortData() {
+  var dataSort = document.querySelector(".data-sort");
+  var hotSort = document.querySelector(".hot-sort");
+
+  dataSort.addEventListener("click", function () {
+    hotSort.classList.remove("on");
+    this.classList.add("on");
+  });
+
+  hotSort.addEventListener("click", function () {
+    dataSort.classList.remove("on");
+    this.classList.add("on");
+  });
+}
+
+loadEmoji();
+rollBtn();
+sortData();
+
+var opBtn = document.querySelector(".oper .more");
+var oper = document.querySelector(".oper-list");
+opBtn.addEventListener("click", function (e) {
+  e.stopPropagation();
+  oper.style.setProperty("display", "block");
+});
+
+document.addEventListener("click", function () {
+  oper.style.setProperty("display", "none");
+});
+
+function comment() {
+  function commentTemplet() {
+    var templet = `
+        <div class="list-item">
+          <div class="user-face">
+            <img src="${src}" alt="">
+          </div>
+          <div class="comment-con">
+            <div class="nickname">
+              <a href="" class="name">${nickname}</a>
+            </div>
+            <p class="comment-text">${text}</p>
+            <div class="user-info">
+              <span class="floor">${floor}</span>
+              <span class="time">${time}</span>
+              <span class="like">l</span>
+              <span class="hate">h</span>
+              <span class="reply">回复</span>
+              <div class="oper">
+                <div class="more">
+                  <span class="one"></span>
+                  <span class="two"></span>
+                  <span class="three"></span>
+                </div>
+              <div class="oper-list" style="display: none">
+                <ul>
+                  <li class="blacklist">黑名单</li>
+                  <li class="report">举报</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        `;
+
+  }
+
+
+  var send = document.querySelector('.textarea-container .btn');
+  
+  send.addEventListener('click', function() {
+    var text = textarea.value;
+    console.log(text);
+  })
+}
+
+comment();
