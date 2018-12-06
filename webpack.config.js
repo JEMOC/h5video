@@ -3,9 +3,13 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 
+
 module.exports = {
   entry: {
-    app: "./src/app.js"
+    common: "./src/js/common.js",
+    video: "./src/js/video.js",
+    app: "./src/js/app.js",
+    comment: "./src/js/comment.js"
   },
   output: {
     publicPath: "/",
@@ -65,7 +69,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "./index.html",
-      chunks: ["app"],
+      chunks: ["app", "comment", "video"],
       minfiy: {
         collapseWhitespace: true
       }
@@ -76,9 +80,6 @@ module.exports = {
       filename: "[name].min.css",
       allChunks: true
     })
-    // new webpack.ProvidePlugin({
-    //   $: "jquery"
-    // })
   ],
   mode: "development",
   devServer: {
@@ -86,16 +87,6 @@ module.exports = {
     port: 10010,
     hot: true,
     overlay: true,
-    // proxy: {
-    //   "/comments": {
-    //     target: "http",
-    //     changeOrigin: true,
-    //     logLevel: "debug",
-    //     headers: {
-    //       Cookie: ""
-    //     }
-    //   }
-    // }
     historyApiFallback: {
     rewrites: [{from: /.*/, to: "/index.html"}]
     }

@@ -6,6 +6,131 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Document</title>
+  <script>
+
+    function isArray(arg) {
+  if (typeof arg === "object") {
+    return Object.prototype.toString.call(arg) === "[object Array]";
+  } else {
+    false;
+  }
+}
+
+function getStyle(element, attr) {
+  if (getComputedStyle) {
+    return getComputedStyle(element, null)[attr];
+  } else {
+    return element.currentStyle[attr] || 0;
+  }
+}
+
+
+function animate(element, eventObj, time, fps, callback) {
+  clearInterval(element.timer);
+  element.timer = setInterval(function() {
+    for (var attr in eventObj) {
+      if (attr === "opacity") {
+        var current = getStyle(element, attr) * 10;
+        var target = eventObj[attr] * 10;
+        var step = (target - current) / (time * fps);
+        step = step > 0 ? Math.ceil(step) : Math.floor(step);
+        current += step;
+        element.style[attr] = current / 10;
+      } else if (attr === "zIndex") {
+        element.style[attr] = eventObj[attr];
+      } else {
+        var current = parseInt(getStyle(element, attr));
+        var target = eventObj[attr];
+        var step = (target - current) / (time * fps);
+        step = step > 0 ? Math.ceil(step) : Math.floor(step);
+        current += step;
+        element.style[attr] = current + "px";
+      }
+
+      if (current == target) {
+        clearInterval(element.timer);
+        callback();
+      }
+    }
+  }, 1000 / fps);
+}
+
+
+Date.prototype.format = function(fmt) {
+  var o = {
+    "M+": this.getMonth() + 1,
+    "d+": this.getDate(),
+    "h+": this.getHours(),
+    "m+": this.getMinutes(),
+    "s+": this.getSeconds(),
+    "q+": Math.floor((this.getMonth() + 3) / 3),
+    "S": this.getMilliseconds(),
+  };
+
+  if(new RegExp(/(y+)/.test(fmt))){
+    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  }
+
+  for(var k in o) {
+    if(new RegExp("(" + k + ")").test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr((""+ o[k]).length)));
+    }
+  }
+
+  return fmt;
+}
+
+console.log(new Date().format("yyyy/MM/dd hh:mm:ss"));
+
+
+function getPoint(obj) {
+  var t = obj.offsetTop;
+  var l = obj.offsetLeft;
+
+  while ((obj = obj.offsetParent)) {
+    t += obj.offsetTop;
+    l += obj.offsetLeft;
+  }
+  return {
+    top: t,
+    left: l
+  };
+}
+
+function Time(sec) {
+  var a = parseInt(sec / 60);
+  var b = parseInt(sec % 60);
+  if (isNaN(a) && isNaN(b)) {
+    return "00:00";
+  } else {
+    var min, second;
+
+    min = a >= 10 ? a : "0" + a;
+    second = b >= 10 ? b : "0" + b;
+    return `${min}:${second}`;
+  }
+}
+
+function hasClass(elem, cl) {
+  var classList = Array.from(elem.classList);
+  if (classList.indexOf(cl) >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function scale16(elem) {
+  var width = elem.offsetWidth;
+  var height = (width * 9) / 16;
+  return {
+    width,
+    height
+  };
+}
+
+console.log('common.js')
+  </script>
 </head>
 
 <body>
@@ -429,129 +554,100 @@
 
           <div class="comment-module">
             <div class="comment-info">
-              <span class="comment-num">0</span>
+              <span class="comment-num"></span>
               <span>评论</span>
               <a class="log" href="">查看删除日志</a>
             </div>
+
+
             <div class="comment">
+              
               <div class="comment-header clearfix">
                 <div class="tab">
                   <ul class="clearfix">
                     <li class="data-sort on">
                       全部评论
                     </li>
-                    <li class="hot-sort">
+                    <li class="hot-sort" style="display: none">
                       按热度评论
                     </li>
                   </ul>
                 </div>
               </div>
-            </div>
 
-            <div class="comment-send">
-              <div class="user-face">
-                <img src="http://localhost:10010/1.webp" alt="">
-              </div>
-              <div class="textarea-container">
-                <textarea name="" id="" cols="80" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
-                <a class="btn" id="commentSubmit">发表评论</a>
-              </div>
-              <div class="comment-emoji">
-                <div class="emoji-btn">
-                  <span class="btn-text">表情</span>
-                </div>
-                <div class="emoji-container">
-                  <div class="emoji-box">
-                    <div class="emoji-title"></div>
+              <div class="comment-list">
 
-                    <div class="emoji-wrap">
-
+                <!-- <div class="list-item reply-wrap">
+                  <div class="user-face">
+                    <a href="">
+                      <img src="http://localhost:10010/1.webp" alt="">
+                    </a>
+                  </div>
+                  <div class="comment-con">
+                    <div class="user">
+                      <a href="" class="name">up</a>
                     </div>
-
-                    <div class="emoji-tabs">
-                      <div class="emoji-tab-con">
-                        <div class="emoji-tab-wrap clearfix">
-
+                    <p class="comment-text">一年一集一共6集，我怕是可以看番看到敬老院[小电视_发愁]</p>
+                    <div class="user-info">
+                      <span class="floor">#1</span>
+                      <span class="time">1分钟前</span>
+                      <span class="like"><i></i>22</span>
+                      <span class="hate"><i></i>22</span>
+                      <span class="reply">回复</span>
+                      <div class="oper">
+                        <div class="more">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        <div class="oper-list" style="display: none">
+                          <ul>
+                            <li class="blacklist">加入黑名单</li>
+                            <li class="report">举报</li>
+                          </ul>
                         </div>
                       </div>
-
-                      <div class="emoji-tab-slider">
-                        <span class="prev">
-                          <i class="prev-icon"></i>
-                        </span>
-                        <span class="next">
-                          <i class="next-icon"></i>
-                        </span>
-                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="comment-list">
-
-              <div class="list-item reply-wrap">
-                <div class="user-face">
-                  <a href="">
-                    <img src="http://localhost:10010/1.webp" alt="">
-                  </a>
-                </div>
-                <div class="comment-con">
-                  <div class="user">
-                    <a href="" class="name">up</a>
-                  </div>
-                  <p class="comment-text">一年一集一共6集，我怕是可以看番看到敬老院[小电视_发愁]</p>
-                  <div class="user-info">
-                    <span class="floor">#1</span>
-                    <span class="time">1分钟前</span>
-                    <span class="like"><i></i>22</span>
-                    <span class="hate"><i></i>22</span>
-                    <span class="reply">回复</span>
-                    <div class="oper">
-                      <div class="more">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                      <div class="oper-list" style="display: none">
-                        <ul>
-                          <li class="blacklist">加入黑名单</li>
-                          <li class="report">举报</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="reply-box">
-                    <div class="reply-item reply-wrap">
-                      <a href="" class="reply-face">
-                        <img src="http://localhost:10010/1.webp" alt="">
-                      </a>
-                      <div class="reply-con">
-                        <div class="user-con">
-                          <div class="user">
-                            <a href="" class="name">up</a>
-                            <a href="" class="level"><i></i></a>
-                            <span class="reply-text">自顶111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</span>
+                    <div class="reply-box">
+                      <div class="reply-item reply-wrap">
+                        <a href="" class="reply-face">
+                          <img src="http://localhost:10010/1.webp" alt="">
+                        </a>
+                        <div class="reply-con">
+                          <div class="user-con">
+                            <div class="user">
+                              <a href="" class="name">up</a>
+                              <a href="" class="level"><i></i></a>
+                              <span class="reply-text">自顶111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</span>
+                            </div>
+                          </div>
+                          <div class="user-info">
+                            <span class="time">1分钟前</span>
+                            <span class="like"><i></i></span>
+                            <span class="reply">回复</span>
                           </div>
                         </div>
-                        <div class="user-info">
-                          <span class="time">1分钟前</span>
-                          <span class="like"><i></i></span>
-                          <span class="reply">回复</span>
-                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
+                
               </div>
 
 
             </div>
+
+
+            <div class="comment-loading">
+              <span>loading...</span>
+            </div>
+
           </div>
 
         </div>
         <div class="right-content">
+          <div class="danmu-wrap"></div>
+          <div id="insertList"></div>
 
         </div>
       </div>

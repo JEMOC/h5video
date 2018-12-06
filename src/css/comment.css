@@ -1,0 +1,572 @@
+.comment-module .comment-info {
+  font-size: 0;
+  margin-bottom: 16px;
+}
+
+.comment-module .comment-info span {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.comment-info .comment-num {
+  margin-right: 10px;
+}
+
+.comment-info .comment-num:empty {
+  margin: 0px;
+}
+
+.comment-info .log {
+  float: right;
+  font-size: 12px;
+  color: #999;
+  text-decoration: none;
+  line-height: 24px;
+}
+
+.comment .comment-header {
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e5e9f0;
+}
+
+.comment-header .tab {
+  float: left;
+}
+
+.tab li {
+  float: left;
+  line-height: 38px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab li.on {
+  color: #00a1d6;
+}
+
+.tab .on::before {
+  content: '';
+  border-style: solid;
+  border-width: 3px;
+  border-color: transparent transparent #00a1d6 transparent;
+  width: 0;
+  height: 0;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tab .on::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  bottom: -1px;
+  height: 1px;
+  background-color: #00a1d6;
+}
+
+.tab li:hover {
+  color: #00a1d6;
+}
+
+.tab .data-sort {
+  margin-right: 10px;
+}
+
+.tab .hot-sort {
+  margin: 0 10px;
+}
+
+.comment-module .comment-send {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+.comment-module .user-face {
+  float: left;
+  position: relative;
+  margin: 8px 0 0 5px;
+}
+
+.user-face img {
+  width: 48px;
+  height: 48px;
+  display: block;
+  border-radius: 50%;
+}
+
+.comment-send .textarea-container {
+  margin: 0 80px 0 85px;
+  position: relative;
+}
+
+.textarea-container textarea {
+  font-size: 12px;
+  display: block;
+  height: 65px;
+  width: 100%;
+  resize: none;
+  overflow: auto;
+  border-radius: 4px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border: 1px solid #e5e9ef;
+  background-color: #f5f4f7;
+  outline: none;
+  transition: all .2s ease;
+}
+
+.textarea-container:hover textarea {
+  border-color: #00a1d6;
+  background-color: #fff;
+}
+
+.textarea-container textarea:focus {
+  border-color: #00a1d6;
+  background-color: #fff;
+}
+
+
+
+.textarea-container .btn {
+  width: 70px;
+  height: 64px;
+  display: block;
+  position: absolute;
+  font-size: 14px;
+  text-align: center;
+  background-color: #00a1d6;
+  outline: none;
+  border-radius: 4px;
+  color: #fff;
+  right: -80px;
+  top: 0;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+}
+
+.textarea-container .btn:hover {
+  background-color: #00b5e5;
+}
+
+
+.comment-send .emoji-btn {
+  margin-top: 8px;
+  margin-left: 85px;
+  width: 66px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid #e5e9f0;
+}
+
+.emoji-btn .btn-text {
+  display: block;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  color: #99a2a1
+}
+
+.emoji-btn:hover .btn-text {
+  color: #999;
+}
+
+.comment-module{
+  position: relative;
+}
+
+.comment-module .emoji-box {
+  position: absolute;
+  width: 380px;
+  height: 230px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #ccd0d7;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .14);
+  margin: 7px 0 10px 0;
+  display: none;
+  z-index: 400;
+}
+
+.comment-module .emoji-box::before {
+  position: absolute;
+  content: '';
+  display: block;
+  border-top: 1px solid #ccd0d7;
+  border-right: 1px solid #ccd0d7;
+  width: 8px;
+  height: 8px;
+  transform: rotateZ(-45deg);
+  background-color: #fff;
+  top: -5px;
+  left: 29px;
+}
+
+.emoji-box .emoji-wrap {
+  margin: 4px 5px 8px;
+  height: 152px;
+  overflow: auto;
+}
+
+.emoji-box .emoji-title {
+  margin: 8px 18px 0;
+  font-size: 12px;
+  color: #999;
+  height: 20px;
+}
+
+.emoji-box .emoji {
+  margin: 4px 8px 8px;
+  height: 152px;
+  overflow: auto;
+}
+
+.emoji-wrap .emoji-text {
+  color: #111;
+  border-radius: 4px;
+  display: inline-block;
+  padding: 3px 5px;
+  margin: 2px 3px;
+  outline: none;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.emoji-wrap .emoji-text:hover {
+  background-color: #ddd;
+}
+
+.emoji-icon {
+  display: inline-block;
+}
+
+.emoji-icon img {
+  margin: 5px;
+  cursor: pointer;
+}
+
+.emoji-box .emoji-tabs {
+  height: 38px;
+  overflow: hidden;
+  background-color: #f4f5f7;
+  border-radius: 0 0 4px 4px;
+  position: relative;
+}
+
+.emoji-tabs .emoji-tab-con {
+  width: 322px;
+  overflow: hidden;
+}
+
+.emoji-tabs .tab-link {
+  padding: 8px 12px;
+  display: block;
+  float: left;
+  cursor: pointer;
+  height: 38px;
+  box-sizing: border-box;
+}
+
+.emoji-tabs .tab-link.on {
+  background-color: #fff;
+}
+
+.emoji-tabs .tab-link img {
+  display: block;
+}
+
+.emoji-tab-wrap {
+  position: relative;
+}
+
+.emoji-tabs .emoji-tab-slider {
+  width: 32px;
+  height: 22px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.emoji-tab-slider span {
+  width: 14px;
+  height: 20px;
+  border: 1px solid #cdd0d7;
+  display: block;
+  float: left;
+  position: relative;
+  cursor: pointer;
+}
+
+.emoji-tab-slider .prev {
+  border-radius: 4px 0 0 4px;
+}
+
+.prev .prev-icon {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px;
+  border-color: transparent #cdd0d7 transparent transparent;
+  display: block;
+  position: absolute;
+  top: 7px;
+  left: 1px;
+}
+
+.next .next-icon {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px;
+  border-color: transparent transparent transparent #cdd0d7;
+  display: block;
+  position: absolute;
+  top: 7px;
+  right: 1px;
+}
+
+.next.on:hover {
+  background-color: #fff;
+}
+
+.prev.on:hover {
+  background-color: #fff;
+}
+
+.emoji-tab-slider .prev.on:hover .prev-icon {
+  border-color: transparent #00a1d6 transparent transparent;
+}
+
+.emoji-tab-slider .next.on:hover .next-icon {
+  border-color: transparent transparent transparent #00a1d6;
+}
+
+.emoji-tab-slider .prev.on .prev-icon {
+  border-color: transparent #222 transparent transparent;
+}
+
+.emoji-tab-slider .next.on .next-icon {
+  border-color: transparent transparent transparent #222;
+}
+
+.emoji-tab-slider .next {
+  border-radius: 0 4px 4px 0;
+}
+
+/* comment-list */
+.comment-module .comment-list {
+  position: relative;
+  padding-top: 22px;
+}
+
+.comment-list .list-item{
+  position: relative;
+}
+
+.comment-list .list-item:last-child .comment-con {
+  border-bottom: 1px solid #e5e9f0;
+}
+
+.comment-list .list-item .user-face {
+  margin-top: 22px;
+}
+
+.comment-list .user-face img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.comment-list .list-item .comment-con {
+  position: relative;
+  margin-left: 85px;
+  padding: 22px 0 14px;
+  border-top: 1px solid #e5e9f0;
+}
+
+.comment-list .reply-wrap .user {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  padding-bottom: 4px;
+  display: block;
+  word-wrap: break-word;
+}
+
+.comment-list .reply-wrap .user>a {
+  margin-right: 5px;
+}
+
+.list-item .comment-con .name {
+  color: #6d757a;
+}
+
+.list-item .comment-con .comment-text {
+  font-size: 14px;
+  line-height: 20px;
+  text-shadow: none;
+  overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
+  padding: 2px 0;
+}
+
+.reply-wrap .user-info {
+  font-size: 12px;
+  line-height: 26px;
+  color: #99a1a2;
+}
+
+.reply-wrap .user-info>span {
+  margin-right: 16px;
+}
+
+.reply-wrap .user-info .oper {
+  float: right;
+  position: relative;
+}
+
+.reply-wrap .user-info .like,
+.hate {
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.reply-wrap .user-info .like:hover,
+.hate:hover {
+  color: #00a1d6;
+}
+
+.reply-wrap .user-info .oper .more {
+  width: 26px;
+  height: 26px;
+}
+
+.reply-wrap .user-info .oper .oper-list {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 20;
+}
+
+.reply-wrap .oper-list ul {
+  padding: 8px 0;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .14);
+  border: 1px solid #e5e9f0;
+}
+
+.reply-wrap .oper-list ul li {
+  height: 38px;
+  line-height: 38px;
+  width: 100px;
+  padding: 0 15px;
+  font-size: 14px;
+  color: #222;
+  transition: all .2s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.reply-wrap .oper-list ul li:hover {
+  background-color: #ddd;
+  color: #00a1d6;
+}
+
+.reply-wrap .oper .more {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.reply-wrap .oper .more>span {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: #e5e9ef;
+  display: block;
+}
+
+.reply-wrap .oper .more>span:first-child {
+  margin-top: 6px;
+}
+
+.reply-wrap .oper .more>span:last-child {
+  margin-bottom: 7px;
+}
+
+.reply-wrap .oper .more:hover>span {
+  background-color: #00a1d6;
+}
+
+.comment-list .list-item .reply-box {
+  margin-top: 12px;
+  position: relative;
+}
+
+.reply-box .reply-item .reply-face {
+  margin: 12px 0 0 5px;
+  float: left;
+}
+
+.reply-box .reply-face img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.reply-box .reply-con {
+  margin-left: 40px;
+}
+
+.reply-box .reply-item .user .reply-text {
+  font-size: 14px;
+  word-break: break-all;
+  font-weight: 400;
+}
+
+.reply-wrap .user-info .reply {
+  display: inline-block;
+  padding: 0 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.reply-wrap .user-info .reply:hover {
+  color: #00a1d6;
+  background-color: #DDD;
+}
+
+.user-info .like i:after {
+  content: '\e506';
+  display: inline-block;
+  transform: rotateZ(180deg);
+}
+
+.user-info .hate i:after {
+  content: '\e506';
+  transform: translateY(3px);
+  display: inline-block;
+}
+
+.user-info i {
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+.comment-loading {
+  text-align: center;
+  color: #99a2a1;
+  font-size: 12px;
+  padding-bottom: 40px;
+}
