@@ -120,3 +120,69 @@ function scale16(elem) {
 }
 
 console.log('common.js')
+
+
+
+
+
+// emojiData.forEach(function(item) {
+  //   var title = item.title;
+  //   var icon = item.icon;
+  //   var type = item.type;
+  //   var dataList = item.emojiList;
+
+  //   var boxTitle = element.querySelector(".emoji-title");
+  //   var boxWrap = element.querySelector(".emoji-wrap");
+  //   var tabWrap = element.querySelector(".emoji-tab-wrap");
+
+  //   var tab = document.createElement("a");
+  //   tab.className = "tab-link";
+  //   tab.title = title;
+  //   tab.addEventListener("click", function() {
+  //     var links = tabWrap.querySelectorAll(".tab-link");
+  //     links.forEach(function(link) {
+  //       link.classList.remove("on");
+  //     });
+  //     this.classList.add("on");
+
+  //     boxTitle.innerHTML = title;
+  //     boxWrap.innerHTML = "";
+
+  //     dataList.forEach(function(item) {
+  //       var emojiList = document.createElement("a");
+  //       emojiList.className = "emoji-list";
+  //       emojiList.setAttribute("emoji-data-text", item.title);
+
+  //       emojiList.addEventListener("click", function() {
+  //         var textarea = document.querySelector(
+  //           ".textarea-container.focus textarea"
+  //         );
+  //         var box = document.querySelector(".emoji-box");
+  //         textarea.value += this.getAttribute("emoji-data-text");
+  //         textarea.focus();
+  //         box.style.display = "none";
+  //       });
+
+  //       if (title === "颜文字") {
+  //         emojiList.classList.add("emoji-text");
+  //         emojiList.innerHTML = item.text;
+  //       } else {
+  //         emojiList.classList.add("emoji-icon");
+
+  //         var img = document.createElement("img");
+  //         img.src = `/emoji/${title}/${item.src}`;
+  //         img.title = item.title;
+
+  //         emojiList.appendChild(img);
+  //       }
+
+  //       boxWrap.appendChild(emojiList);
+  //     });
+  //   });
+
+  //   var img = document.createElement("img");
+  //   img.src = `/emoji/base/${icon}`;
+  //   tab.appendChild(img);
+
+  //   tabWrap.appendChild(tab);
+  // });

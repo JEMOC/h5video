@@ -1,4 +1,6 @@
 require("../css/comment.css");
+const emojiData = require("../emoji.json");
+
 
 var commentList = document.querySelector(".comment-list");
 var comment = document.querySelector(".comment-module .comment");
@@ -31,16 +33,15 @@ function error() {
   var mini = document.querySelector(".mini-error");
   // animate(mini, 'top', btnTop - 40);
   animate(
-    mini,
-    {
+    mini, {
       top: btnTop - 40,
       opacity: 1
     },
     2,
     60,
-    function() {
+    function () {
       console.log("finish");
-      setTimeout(function() {
+      setTimeout(function () {
         document.body.removeChild(div);
       }, 2000);
     }
@@ -66,19 +67,19 @@ function generateSend() {
   var btn = send.querySelector("#commentSubmit");
   var textarea = send.querySelector("textarea");
   var emojiBtn = send.querySelector(".emoji-btn");
+  var emojiBox = document.querySelector(".comment-module .emoji-box");
 
-  emojiBtn.addEventListener("click", function(event) {
-    var emojiBox = document.querySelector(".comment-module .emoji-box");
-
+  emojiBtn.addEventListener("click", function (event) {
     event.stopPropagation();
     emojiBox.style.display = "block";
+
+    textarea.focus();
+    textarea.parentNode.classList.add("focus");
 
     var element = this;
     var top = 0;
     var left = 0;
     while (element != comment) {
-      console.log(element, element.offsetLeft, element.offsetTop);
-
       top += element.offsetTop;
       left += element.offsetLeft;
 
@@ -87,14 +88,36 @@ function generateSend() {
 
     emojiBox.style.left = left + "px";
     emojiBox.style.top = top + this.offsetHeight + 3 + "px";
+
+    var slider = emojiBox.querySelector(".emoji-tab-slider");
+    var tabLinks = emojiBox.querySelectorAll(".tab-link");
+
+    if (hasClass(send.parentNode, "reply-box")) {
+      slider.style.display = "none";
+      tabLinks.forEach(function (element, key) {
+        if (key == 0) {
+          element.click();
+        } else {
+          element.style.display = "none";
+        }
+      });
+    } else {
+      slider.style.display = "block";
+      tabLinks.forEach(function (element) {
+        element.style.display = "block";
+      });
+    }
   });
 
-  document.addEventListener("click", function() {
+  document.addEventListener("click", function () {
     var emojiBox = document.querySelector(".comment-module .emoji-box");
     emojiBox.style.display = "none";
+    document.querySelectorAll(".textarea-container").forEach(function (element) {
+      element.classList.remove("focus");
+    });
   });
 
-  btn.addEventListener("click", function() {
+  btn.addEventListener("click", function () {
     var text = textarea.value;
     console.log(textarea.value);
 
@@ -102,9 +125,17 @@ function generateSend() {
       var data = {
         text
       };
-      var reply = generateReply(data);
-      textarea.value = "";
-      commentList.appendChild(reply);
+      var reply;
+
+      if (hasClass(send.parentNode, "reply-box")) {
+        reply = generateReply(data, false);
+        send.parentNode.appendChild(reply);
+        send.parentNode.removeChild(send);
+      } else {
+        reply = generateReply(data);
+        textarea.value = "";
+        commentList.appendChild(reply);
+      }
     } else {
       if (document.querySelector(".mini-error")) {
         return;
@@ -118,7 +149,6 @@ function generateSend() {
 }
 
 function generateEmojiBox() {
-  const emojiData = require("../emoji.json");
 
   var element = document.createElement("div");
   element.className = "emoji-box";
@@ -141,183 +171,264 @@ function generateEmojiBox() {
     </div>
   </div>`;
 
-  emojiData.forEach(function(item) {
-    var title = item.title;
-    var icon = item.icon;
-    var type = item.type;
-    var dataList = item.emojiList;
+  var boxTitle = element.querySelector(".emoji-title");
+  var boxWrap = element.querySelector(".emoji-wrap");
+  var tabWrap = element.querySelector(".emoji-tab-wrap");
 
-    var boxTitle = element.querySelector(".emoji-title");
-    var boxWrap = element.querySelector(".emoji-wrap");
-    var tabWrap = element.querySelector(".emoji-tab-wrap");
-
+  for (let key in emojiData) {
     var tab = document.createElement("a");
     tab.className = "tab-link";
-    tab.title = title;
-    tab.addEventListener("click", function() {
+    tab.title = key;
+
+    var img = document.createElement("img");
+    img.src = `/emoji/base/${emojiData[key].icon}`;
+    tab.appendChild(img);
+
+    tab.addEventListener('click', function () {
       var links = tabWrap.querySelectorAll(".tab-link");
-      links.forEach(function(link) {
+
+      links.forEach(function (link) {
         link.classList.remove("on");
       });
+
       this.classList.add("on");
 
-      boxTitle.innerHTML = title;
+      boxTitle.innerHTML = key;
       boxWrap.innerHTML = "";
 
-      dataList.forEach(function(item) {
+      var data = emojiData[key].data;
+
+      for (let title in data) {
         var emojiList = document.createElement("a");
         emojiList.className = "emoji-list";
-        emojiList.setAttribute("emoji-data-text", item.title);
+        emojiList.setAttribute("emoji-data-text", title);
 
-        emojiList.addEventListener("click", function() {
-          var textarea = element.parentNode.querySelector("textarea");
+        emojiList.addEventListener("click", function () {
+          var textarea = document.querySelector(
+            ".textarea-container.focus textarea"
+          );
           var box = document.querySelector(".emoji-box");
           textarea.value += this.getAttribute("emoji-data-text");
           textarea.focus();
           box.style.display = "none";
         });
 
-        if (title === "颜文字") {
+        if (key === "颜文字") {
           emojiList.classList.add("emoji-text");
-          emojiList.innerHTML = item.text;
+          emojiList.innerHTML = data[title];
         } else {
           emojiList.classList.add("emoji-icon");
 
           var img = document.createElement("img");
-          img.src = `/emoji/${title}/${item.src}`;
-          img.title = item.title;
+          img.src = `/emoji/${key}/${data[title]}`;
+          img.title = title;
 
           emojiList.appendChild(img);
         }
 
         boxWrap.appendChild(emojiList);
-      });
-    });
-
-    var img = document.createElement("img");
-    img.src = `/emoji/base/${icon}`;
-    tab.appendChild(img);
-
+      }
+    })
     tabWrap.appendChild(tab);
-  });
+    element.querySelector('.tab-link').click();
+  }
 
-  element.querySelector(".tab-link").click();
-  element.addEventListener("click", function(event) {
+  element.addEventListener("click", function (event) {
     event.stopPropagation();
   });
 
-  (function() {
+  (function () {
     var tabWrap = element.querySelector(".emoji-tab-wrap");
     var prevBtn = element.querySelector(".emoji-tab-slider .prev");
     var nextBtn = element.querySelector(".emoji-tab-slider .next");
 
-    var width = emojiData.length * 46;
+    var length = Object.keys(emojiData).length;
+    var width = length * 46;
     var index = 1;
     var page = Math.ceil(width / 322);
 
     tabWrap.style.width = width + "px";
 
-    if(page > 1) {
-      nextBtn.classList.add('on');
+    if (page > 1) {
+      nextBtn.classList.add("on");
     }
 
-    prevBtn.addEventListener('click', function() {
+    foo();
+
+    prevBtn.addEventListener("click", function () {
       index--;
-      if(index <= 1) {
-        index = 1;
-        prevBtn.classList.remove('on');
-      }
-      if(index < page) {
-        nextBtn.classList.add('on');
-      }
       foo();
     });
 
-    nextBtn.addEventListener('click', function() {
+    nextBtn.addEventListener("click", function () {
       index++;
-      if(index >= page) {
-        index = page;
-        nextBtn.classList.remove('on');
-      }
-      if(index > 1) {
-        prevBtn.classList.add('on');
-      }
       foo();
     });
 
     function foo() {
-      tabWrap.style.left = (index - 1) * -322 + 'px';
-    }
+      if (index <= 1) {
+        index = 1;
+        prevBtn.classList.remove("on");
+      }
 
+      if (index < page) {
+        nextBtn.classList.add("on");
+      }
+
+      if (index >= page) {
+        index = page;
+        nextBtn.classList.remove("on");
+      }
+
+      if (index > 1) {
+        prevBtn.classList.add("on");
+      }
+      tabWrap.style.left = (index - 1) * -322 + "px";
+    }
   })();
 
   return element;
 }
 
-function generateReply(replyData) {
-  var replyHtml = `
-  <div class="user-face">
-    <a href="">
-      <img src="http://localhost:10010/1.webp" alt="">
-    </a>
-  </div>
-  <div class="comment-con">
-    <div class="user">
-      <a href="" class="name">up</a>
+function generateReply(replyData, state = true) {
+  var replyWrap = document.createElement("div");
+  var replyHtml = "";
+  replyWrap.className = "reply-wrap";
+
+  var text = replyData.text;
+
+  if (state) {
+    replyWrap.classList.add("list-item");
+
+    var reg = /\[\S+?\]/g;
+
+    if (reg.test(text)) {
+      var es = text.match(reg);
+      // console.log(es);
+      es.forEach(function(e) {
+        var title = e.split('_')[0].replace('[', '');
+        console.log(title)
+        var src = emojiData[title].data[e];
+        text.replace(e, `<img src="/emoji/${title}/${src}"></img>`);
+        console.log(text);
+      })
+      
+    }
+
+
+    replyHtml = `
+    <div class="user-face">
+      <a href="">
+        <img src="http://localhost:10010/1.webp" alt="">
+      </a>
     </div>
-    <p class="comment-text">${replyData.text}</p>
-    <div class="user-info">
-      <span class="floor">#1</span>
-      <span class="time">1分钟前</span>
-      <span class="like"><i></i>22</span>
-      <span class="hate"><i></i>22</span>
-      <span class="reply">回复</span>
-      <div class="oper">
-        <div class="more">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="oper-list">
-          <ul style="display: none">
-            <li class="blacklist">加入黑名单</li>
-            <li class="report">举报</li>
-          </ul>
+    <div class="comment-con">
+      <div class="user">
+        <a href="" class="name">up</a>
+      </div>
+      <p class="comment-text">${text}</p>
+      <div class="user-info">
+        <span class="floor">#1</span>
+        <span class="time">1分钟前</span>
+        <span class="like"><i></i>22</span>
+        <span class="hate"><i></i>22</span>
+        <span class="reply">回复</span>
+        <div class="oper">
+          <div class="more">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="oper-list">
+            <ul style="display: none">
+              <li class="blacklist">加入黑名单</li>
+              <li class="report">举报</li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="reply-box">
-    </div>
-  </div>`;
+      <div class="reply-box">
+      </div>
+    </div>`;
 
-  var replyWrap = document.createElement("div");
-  replyWrap.className = "reply-wrap";
-  replyWrap.innerHTML = replyHtml;
-  replyWrap.classList.add("list-item");
+    replyWrap.innerHTML = replyHtml;
+
+    var replyBtn = replyWrap.querySelector(".reply");
+    var replyBox = replyWrap.querySelector(".reply-box");
+    replyBtn.addEventListener("click", function () {
+      var send = replyBox.querySelector(".comment-send");
+      if (send) {
+        replyBox.removeChild(send);
+        replyWrap.classList.remove("reply-on");
+      } else {
+        var listItem = document.querySelectorAll(".list-item");
+
+        listItem.forEach(function (element) {
+          element.classList.remove("reply-on");
+          var box = element.querySelector(".reply-box");
+          var send = box.querySelector(".comment-send");
+          if (send) {
+            box.removeChild(send);
+          }
+        });
+        replyBox.append(generateSend());
+        replyWrap.classList.add("reply-on");
+      }
+    });
+  } else {
+    replyWrap.classList.add("reply-item");
+    replyHtml = `
+    <a href="" class="reply-face">
+      <img src="http://localhost:10010/1.webp" alt="">
+    </a>
+    <div class="reply-con">
+      <div class="user-con">
+        <div class="user">
+          <a href="" class="name">up</a>
+          <a href="" class="level"><i></i></a>
+          <span class="reply-text">${replyData.text}</span>
+        </div>
+      </div>
+      <div class="user-info">
+        <span class="time">1分钟前</span>
+        <span class="like"><i></i></span>
+        <span class="reply">回复</span>
+        <div class="oper">
+          <div class="more">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="oper-list">
+            <ul style="display: none">
+              <li class="blacklist">加入黑名单</li>
+              <li class="report">举报</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+    replyWrap.innerHTML = replyHtml;
+  }
 
   var operBtn = replyWrap.querySelector(".oper .more");
   var operList = replyWrap.querySelector(".oper .oper-list ul");
-  operBtn.addEventListener("click", function(event) {
+  operBtn.addEventListener("click", function (event) {
     event.stopPropagation();
     operList.style.display = "block";
   });
-  operList.addEventListener("click", function(event) {
+  operList.addEventListener("click", function (event) {
     event.stopPropagation();
   });
-  document.addEventListener("click", function() {
+  document.addEventListener("click", function () {
     operList.style.display = "none";
-  });
-
-  var replyBtn = replyWrap.querySelector(".reply");
-  var replyBox = replyWrap.querySelector(".reply-box");
-  replyBtn.addEventListener("click", function() {
-    replyBox.append(generateSend());
   });
 
   return replyWrap;
 }
 
-(function() {
+(function () {
   var commentModule = document.querySelector(".comment-module");
   var sendElement = generateSend();
   var commentList = document.querySelector(".comment-module .comment-list");
