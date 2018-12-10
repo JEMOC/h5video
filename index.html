@@ -576,63 +576,87 @@ console.log('common.js')
               </div>
 
               <div class="comment-list">
-
-                <!-- <div class="list-item reply-wrap">
-                  <div class="user-face">
-                    <a href="">
-                      <img src="http://localhost:10010/1.webp" alt="">
-                    </a>
-                  </div>
-                  <div class="comment-con">
-                    <div class="user">
-                      <a href="" class="name">up</a>
-                    </div>
-                    <p class="comment-text">一年一集一共6集，我怕是可以看番看到敬老院[小电视_发愁]</p>
-                    <div class="user-info">
-                      <span class="floor">#1</span>
-                      <span class="time">1分钟前</span>
-                      <span class="like"><i></i>22</span>
-                      <span class="hate"><i></i>22</span>
-                      <span class="reply">回复</span>
-                      <div class="oper">
-                        <div class="more">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                        </div>
-                        <div class="oper-list" style="display: none">
-                          <ul>
-                            <li class="blacklist">加入黑名单</li>
-                            <li class="report">举报</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="reply-box">
-                      <div class="reply-item reply-wrap">
-                        <a href="" class="reply-face">
-                          <img src="http://localhost:10010/1.webp" alt="">
-                        </a>
-                        <div class="reply-con">
-                          <div class="user-con">
-                            <div class="user">
-                              <a href="" class="name">up</a>
-                              <a href="" class="level"><i></i></a>
-                              <span class="reply-text">自顶111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</span>
-                            </div>
-                          </div>
-                          <div class="user-info">
-                            <span class="time">1分钟前</span>
-                            <span class="like"><i></i></span>
-                            <span class="reply">回复</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-
               </div>
+
+              <div class="bottom-page">
+                <!-- <a>1</a>
+                <a>2</a>
+                <a>3</a>
+                <a>4</a>
+                <a>5</a>
+                <a>6</a>
+                <a>7</a>
+
+                <div class="page-jump">
+                  共<span>7</span>页, 跳至<input type="text">页
+                </div> -->
+              </div>
+
+
+              <script>
+               
+
+              </script>
+
+              <style>
+                .bottom-page {
+                  margin: 20px 0;
+                }
+
+                .bottom-page .tcd-number,.current,.dian,.prev,.next {
+                  line-height: 36px;
+                  height: 35px;
+                  min-width: 15px;
+                  display: inline-block;
+                  color: #222;
+                  text-align: center;
+                  background-color: #fff;
+                  border: 1px solid #ddd;
+                  font-size: 14px;
+                  margin: 0 2px;
+                  padding: 0 10px;
+                  border-radius: 4px;
+                  cursor: pointer;
+                  transition: all .2s;
+                }
+
+                .bottom-page .current{
+                 background-color: #00a1d6;
+                 color: #fff;
+                }
+
+                .bottom-page .dian{
+                  border-color: transparent;
+                }
+
+                .bottom-page a:hover {
+                  background-color: #00a1d6;
+                  color: #fff;
+                }
+
+                .bottom-page .page-jump {
+                  float: right;
+                  line-height: 36px;
+                  font-size: 12px;
+                  color: #99a2aa;
+                }
+
+                .bottom-page .page-jump>input {
+                  margin: 0 5px;
+                  padding: 0 10px;
+                  border: 1px solid #ddd;
+                  width: 24px;
+                  height: 24px;
+                  line-height: 24px;
+                  border-radius: 4px;
+                  text-align: center;
+                  outline: none;
+                }
+
+                .bottom-page .page-jump>input:focus {
+                  border-color: #00a1d6;
+                }
+              </style>
 
 
             </div>

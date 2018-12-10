@@ -297,22 +297,22 @@ function generateReply(replyData, state = true) {
 
   var text = replyData.text;
 
+
   if (state) {
+
     replyWrap.classList.add("list-item");
 
     var reg = /\[\S+?\]/g;
 
     if (reg.test(text)) {
       var es = text.match(reg);
-      // console.log(es);
-      es.forEach(function(e) {
+
+      es.forEach(function (e) {
         var title = e.split('_')[0].replace('[', '');
-        console.log(title)
         var src = emojiData[title].data[e];
-        text.replace(e, `<img src="/emoji/${title}/${src}"></img>`);
-        console.log(text);
+        text = text.replace(e, `<img src="/emoji/${title}/${src}"></img>`);
       })
-      
+
     }
 
 
@@ -428,6 +428,10 @@ function generateReply(replyData, state = true) {
   return replyWrap;
 }
 
+function generateIndex() {
+
+}
+
 (function () {
   var commentModule = document.querySelector(".comment-module");
   var sendElement = generateSend();
@@ -442,3 +446,52 @@ function generateReply(replyData, state = true) {
     comment.insertBefore(generateSend(), commentList);
   }
 })();
+
+(function () {
+  var page = 10;
+  var index = 4;
+
+  var ex = [];
+
+  var bottom = document.querySelector('.bottom-page');
+
+  var innerHtml = '';
+
+  if(index != 1) {
+    innerHtml += '<a class="prev">上一页</a>'
+  } 
+
+  if(index - 2 > 2) {
+    innerHtml = '<a class="tcd-number">1</a><span class="dian">...</span>';
+  } else {
+    innerHtml += '<a class="tcd-number">1</a>';
+  }
+
+
+  for (let i = -2; i <= 2; i++) {
+    if (i == 0) {
+      innerHtml += `<span class="current">${index}</span>`
+    } else {
+      var t = index + i;
+      console.log(t);
+      if ((t < 1) || (t > page)) {
+        ex.push(i);
+      } else {
+        innerHtml += `<a class="tcd-number">${t}</a>`
+      }
+    }
+  }
+
+  
+
+  if(index + 2 < page - 1) {
+    innerHtml += `<span class="dian">...</span><a class="tcd-number">${page}</a>`;
+  } else {
+    innerHtml += `<a class="tcd-number">${page}</a>`;
+  }
+
+  if(index != page) {
+    innerHtml += '<a class="next">下一页</a>'
+  }
+  bottom.innerHTML = innerHtml;
+})()

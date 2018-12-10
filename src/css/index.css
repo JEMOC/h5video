@@ -74,6 +74,7 @@ body{
 
 .container {
   width: 75%;
+  min-width: 1170px;
   position: relative;
   margin-top: 15px;
   margin-bottom: 385px;
