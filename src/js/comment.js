@@ -448,50 +448,121 @@ function generateIndex() {
 })();
 
 (function () {
-  var page = 10;
-  var index = 4;
-
-  var ex = [];
+  var page = 100;
+  var index = 1;
 
   var bottom = document.querySelector('.bottom-page');
 
-  var innerHtml = '';
+  function generagePage() {
+    var innerHtml = '';
 
-  if(index != 1) {
-    innerHtml += '<a class="prev">上一页</a>'
-  } 
+    bottom.innerHTML = innerHtml;
 
-  if(index - 2 > 2) {
-    innerHtml = '<a class="tcd-number">1</a><span class="dian">...</span>';
-  } else {
-    innerHtml += '<a class="tcd-number">1</a>';
-  }
+    if (index != 1) {
+      innerHtml += '<a class="prev">上一页</a>';
+    }
 
+    if (index - 4 > 0) {
+      innerHtml += '<a class="tcd-number">1</a>';
 
-  for (let i = -2; i <= 2; i++) {
-    if (i == 0) {
-      innerHtml += `<span class="current">${index}</span>`
-    } else {
-      var t = index + i;
-      console.log(t);
-      if ((t < 1) || (t > page)) {
-        ex.push(i);
+      if (index - 4 <= 2) {
+        var num = index - 4;
+        for (let i = num; i > 0; i--) {
+          innerHtml += `<a class="tcd-number">${index - 2 - i}</a>`;
+        }
       } else {
-        innerHtml += `<a class="tcd-number">${t}</a>`
+        innerHtml += '<span class="dian">...</span>';
       }
+
+      if (index == page) {
+        innerHtml += `<a class="tcd-number">${page - 3}</a>`
+      }
+
+    } else {
+      if (index > 3) {
+        innerHtml += '<a class="tcd-number">1</a>';
+      }
+
+    }
+
+
+
+
+    for (let i = -2; i <= 2; i++) {
+      if (i == 0) {
+        innerHtml += `<span class="current">${index}</span>`
+      } else {
+        var t = index + i;
+        // console.log(t);
+        if ((t < 1) || (t > page)) {
+          // ex.push(i);
+        } else {
+          innerHtml += `<a class="tcd-number">${t}</a>`
+        }
+      }
+    }
+
+    if (index + 3 <= page) {
+      if (index == 1) {
+        innerHtml += '<a class="tcd-number">4</a>';
+      }
+      if (page - index - 2 <= 2) {
+        var num = page - index - 2;
+        for (let i = 1; i <= num; i++) {
+          innerHtml += `<a class="tcd-number">${index + 2 + i}</a>`;
+        }
+      } else {
+        innerHtml += `<span class="dian">...</span><a class="tcd-number">${page}</a>`;
+      }
+    }
+
+
+
+    if (index != page) {
+      innerHtml += '<a class="next">下一页</a>';
+    }
+
+
+    innerHtml += `
+    <div class="page-jump">
+    共<span>${page}</span>页, 跳至<input type="text">页
+    </div>
+    `
+
+    bottom.innerHTML = innerHtml;
+
+    var tcd = bottom.querySelectorAll('.tcd-number');
+    tcd.forEach(function (el) {
+      el.addEventListener('click', function () {
+        index = parseInt(this.innerHTML);
+        // console.log(this.innerHTML);
+        generagePage();
+      })
+    });
+
+    var prev = bottom.querySelector('.prev');
+    console.log(prev);
+    if (prev) {
+      prev.addEventListener('click', function () {
+        console.log('prev');
+        index--;
+        generagePage();
+      })
+    }
+
+    var next = bottom.querySelector('.next');
+    if (next) {
+      next.addEventListener('click', function () {
+        index++;
+        generagePage();
+      })
     }
   }
 
-  
 
-  if(index + 2 < page - 1) {
-    innerHtml += `<span class="dian">...</span><a class="tcd-number">${page}</a>`;
-  } else {
-    innerHtml += `<a class="tcd-number">${page}</a>`;
-  }
 
-  if(index != page) {
-    innerHtml += '<a class="next">下一页</a>'
-  }
-  bottom.innerHTML = innerHtml;
+
+  generagePage();
+
+
 })()
