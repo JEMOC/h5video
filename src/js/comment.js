@@ -527,7 +527,7 @@ function generateIndex() {
     <div class="page-jump">
     共<span>${page}</span>页, 跳至<input type="text">页
     </div>
-    `
+    `;
 
     bottom.innerHTML = innerHtml;
 
@@ -557,12 +557,26 @@ function generateIndex() {
         generagePage();
       })
     }
+
+    var input = bottom.querySelector('input');
+    input.addEventListener('keydown', function(event) {
+      if(event.keyCode == 13) {
+        // console.log('enter');
+        console.log(parseInt(this.value))
+        console.log(isNaN(parseInt(this.value)))
+        if(!isNaN(parseInt(this.value))) {
+          var num = parseInt(this.value);
+          if(num > page) {
+            num = page;
+          }
+          if(num < 1) {
+            num = 1;
+          }
+          index = num;
+          generagePage();
+        }
+      }
+    })
   }
-
-
-
-
   generagePage();
-
-
 })()
