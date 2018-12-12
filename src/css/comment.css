@@ -363,7 +363,7 @@
 /* comment-list */
 .comment-module .comment-list {
   position: relative;
-  padding-top: 22px;
+  padding: 22px 0;
 }
 
 .comment-list .list-item{
@@ -569,4 +569,69 @@
   color: #99a2a1;
   font-size: 12px;
   padding-bottom: 40px;
+}
+
+.bottom-page {
+  margin: 20px 0;
+}
+
+.bottom-page > * {
+  user-select: none;
+}
+.bottom-page .tcd-number,.current,.dian,.prev,.next {
+  line-height: 36px;
+  height: 35px;
+  min-width: 15px;
+  display: inline-block;
+  color: #222;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  margin: 0 2px;
+  padding: 0 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.bottom-page .current{
+ background-color: #00a1d6;
+ color: #fff;
+}
+
+.bottom-page .dian{
+  border-color: transparent;
+}
+
+.bottom-page a:hover {
+  background-color: #00a1d6;
+  color: #fff;
+}
+
+.bottom-page .page-jump {
+  float: right;
+  line-height: 36px;
+  font-size: 12px;
+  color: #99a2aa;
+}
+
+.bottom-page .page-jump>input {
+  margin: 0 5px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  text-align: center;
+  outline: none;
+}
+
+.bottom-page .page-jump>input:focus {
+  border-color: #00a1d6;
+}
+
+.bottom-page .current,.dian{
+  cursor: default;
 }

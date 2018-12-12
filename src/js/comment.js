@@ -448,7 +448,7 @@ function generateIndex() {
 })();
 
 (function () {
-  var page = 100;
+  var page = 20;
   var index = 1;
 
   var bottom = document.querySelector('.bottom-page');
@@ -465,17 +465,17 @@ function generateIndex() {
     if (index - 4 > 0) {
       innerHtml += '<a class="tcd-number">1</a>';
 
-      if (index - 4 <= 2) {
+      if (index - 4 <= 1) {
         var num = index - 4;
         for (let i = num; i > 0; i--) {
           innerHtml += `<a class="tcd-number">${index - 2 - i}</a>`;
         }
       } else {
-        innerHtml += '<span class="dian">...</span>';
-      }
-
-      if (index == page) {
-        innerHtml += `<a class="tcd-number">${page - 3}</a>`
+        if (index == page) {
+          innerHtml += `<span class="dian">...</span><a class="tcd-number">${page - 3}</a>`;
+        } else {
+          innerHtml += '<span class="dian">...</span>';
+        }
       }
 
     } else {
@@ -485,15 +485,11 @@ function generateIndex() {
 
     }
 
-
-
-
     for (let i = -2; i <= 2; i++) {
       if (i == 0) {
         innerHtml += `<span class="current">${index}</span>`
       } else {
         var t = index + i;
-        // console.log(t);
         if ((t < 1) || (t > page)) {
           // ex.push(i);
         } else {
@@ -503,15 +499,16 @@ function generateIndex() {
     }
 
     if (index + 3 <= page) {
-      if (index == 1) {
-        innerHtml += '<a class="tcd-number">4</a>';
-      }
+
       if (page - index - 2 <= 2) {
         var num = page - index - 2;
         for (let i = 1; i <= num; i++) {
           innerHtml += `<a class="tcd-number">${index + 2 + i}</a>`;
         }
       } else {
+        if (index == 1) {
+          innerHtml += '<a class="tcd-number">4</a>';
+        }
         innerHtml += `<span class="dian">...</span><a class="tcd-number">${page}</a>`;
       }
     }
@@ -535,16 +532,13 @@ function generateIndex() {
     tcd.forEach(function (el) {
       el.addEventListener('click', function () {
         index = parseInt(this.innerHTML);
-        // console.log(this.innerHTML);
         generagePage();
       })
     });
 
     var prev = bottom.querySelector('.prev');
-    console.log(prev);
     if (prev) {
       prev.addEventListener('click', function () {
-        console.log('prev');
         index--;
         generagePage();
       })
@@ -559,17 +553,14 @@ function generateIndex() {
     }
 
     var input = bottom.querySelector('input');
-    input.addEventListener('keydown', function(event) {
-      if(event.keyCode == 13) {
-        // console.log('enter');
-        console.log(parseInt(this.value))
-        console.log(isNaN(parseInt(this.value)))
-        if(!isNaN(parseInt(this.value))) {
+    input.addEventListener('keydown', function (event) {
+      if (event.keyCode == 13) {
+        if (!isNaN(parseInt(this.value))) {
           var num = parseInt(this.value);
-          if(num > page) {
+          if (num > page) {
             num = page;
           }
-          if(num < 1) {
+          if (num < 1) {
             num = 1;
           }
           index = num;
@@ -579,4 +570,30 @@ function generateIndex() {
     })
   }
   generagePage();
-})()
+})();
+
+document.addEventListener('scroll', function (event) {
+  var bottom = document.querySelector('.bottom-page');
+  var list = document.querySelector('.comment-list');
+  var comment = document.querySelector('.comment');
+  var send = document.querySelector('.comment > .comment-send');
+
+  var bt = getPoint(bottom).top;
+  var lt = getPoint(list).top;
+
+  var top = document.documentElement.scrollTop || document.body.scrollTop;
+
+
+  if (window.innerHeight < comment.offsetHeight) {
+    f1 = top + window.innerHeight;
+    if (bt < f1 + 100 && bt > f1 - 100) {
+      comment.insertBefore(send, bottom);
+    }
+
+    if (lt < top + 100 && lt > top - 100) {
+      comment.insertBefore(send, list);
+    }
+  }
+
+
+})
