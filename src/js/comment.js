@@ -130,6 +130,7 @@ function generateSend() {
       if (hasClass(send.parentNode, "reply-box")) {
         reply = generateReply(data, false);
         send.parentNode.appendChild(reply);
+        send.parentNode.parentNode.parentNode.classList.remove('reply-on');
         send.parentNode.removeChild(send);
       } else {
         reply = generateReply(data);
@@ -353,28 +354,29 @@ function generateReply(replyData, state = true) {
 
     replyWrap.innerHTML = replyHtml;
 
-    var replyBtn = replyWrap.querySelector(".reply");
-    var replyBox = replyWrap.querySelector(".reply-box");
-    replyBtn.addEventListener("click", function () {
-      var send = replyBox.querySelector(".comment-send");
-      if (send) {
-        replyBox.removeChild(send);
-        replyWrap.classList.remove("reply-on");
-      } else {
-        var listItem = document.querySelectorAll(".list-item");
+    // var replyBtn = replyWrap.querySelector(".reply");
+    // var replyBox = replyWrap.querySelector(".reply-box");
+    // replyBtn.addEventListener("click", function () {
+    //   var send = replyBox.querySelector(".comment-send");
+    //   if (send) {
+    //     replyBox.removeChild(send);
+    //     replyWrap.classList.remove("reply-on");
+    //   } else {
+    //     var listItem = document.querySelectorAll(".list-item");
 
-        listItem.forEach(function (element) {
-          element.classList.remove("reply-on");
-          var box = element.querySelector(".reply-box");
-          var send = box.querySelector(".comment-send");
-          if (send) {
-            box.removeChild(send);
-          }
-        });
-        replyBox.append(generateSend());
-        replyWrap.classList.add("reply-on");
-      }
-    });
+    //     listItem.forEach(function (element) {
+    //       element.classList.remove("reply-on");
+    //       var box = element.querySelector(".reply-box");
+    //       var send = box.querySelector(".comment-send");
+    //       if (send) {
+    //         box.removeChild(send);
+    //       }
+    //     });
+    //     replyBox.append(generateSend());
+    //     replyWrap.classList.add("reply-on");
+    //   }
+    // });
+
   } else {
     replyWrap.classList.add("reply-item");
     replyHtml = `
@@ -410,6 +412,7 @@ function generateReply(replyData, state = true) {
     </div>`;
 
     replyWrap.innerHTML = replyHtml;
+
   }
 
   var operBtn = replyWrap.querySelector(".oper .more");
@@ -424,6 +427,43 @@ function generateReply(replyData, state = true) {
   document.addEventListener("click", function () {
     operList.style.display = "none";
   });
+
+  var replyBtn = replyWrap.querySelector('.user-info .reply');
+
+  replyBtn.addEventListener('click', function () {
+    var replyBox, send, listItem, flage;
+    if (hasClass(replyWrap, 'list-item')) {
+      listItem = replyWrap;
+      flage = true;
+    } else {
+      listItem = replyWrap.parentNode.parentNode.parentNode;
+      flage = false;
+    }
+
+    send = listItem.querySelector('.comment-send');
+    replyBox = listItem.querySelector('.reply-box');
+
+    if (send) {
+      if (flage) {
+        listItem.classList.remove('reply-on');
+        replyBox.removeChild(send);
+      }
+    } else {
+      var list = document.querySelectorAll('.list-item');
+      list.forEach(function (element) {
+        if (hasClass(element, 'reply-on')) {
+          element.classList.remove('reply-on');
+          element.querySelector('.reply-box').removeChild(element.querySelector('.comment-send'));
+        }
+      })
+      listItem.classList.add('reply-on');
+      replyBox.appendChild(generateSend());
+
+    }
+
+
+
+  })
 
   return replyWrap;
 }

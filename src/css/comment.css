@@ -535,6 +535,11 @@
   font-weight: 400;
 }
 
+.reply-box .comment-send{
+  padding: 0;
+  margin: 20px 0;
+}
+
 .reply-wrap .user-info .reply {
   display: inline-block;
   padding: 0 5px;
